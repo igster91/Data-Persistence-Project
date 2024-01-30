@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text FullScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -18,7 +20,6 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +36,12 @@ public class MainManager : MonoBehaviour
                 brick.PointValue = pointCountArray[i];
                 brick.onDestroyed.AddListener(AddPoint);
             }
+        }
+
+        // need to fix. auto-populating when name is entered
+        if (OtherMainManager.Instance.userName != null)
+        {
+            FullScoreText.text = $"Best Score : {OtherMainManager.Instance.userName} : {m_Points}";
         }
     }
 
@@ -72,5 +79,6 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        FullScoreText.text = $"Best Score : {OtherMainManager.Instance.userName} : {m_Points}";
     }
 }
